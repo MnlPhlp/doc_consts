@@ -1,0 +1,13 @@
+[package]
+name = "doc_consts"
+version = "0.1.0"
+edition = "2021"
+description = "get doc comments on fields as runtime constants"
+
+[lib]
+proc-macro=true
+
+[dependencies]
+paste = "1.0.14"
+quote = "1.0.32"
+syn = "2.0.28"
