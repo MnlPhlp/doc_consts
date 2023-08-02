@@ -16,7 +16,7 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
         .iter()
         .map(|(field, _)| format!("{field}: &'static str"))
         .collect::<Vec<_>>()
-        .join("\n");
+        .join(",\n");
 
     let values = field_docs
         .iter()
