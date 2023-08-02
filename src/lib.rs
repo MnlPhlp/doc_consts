@@ -51,7 +51,12 @@ fn parse_struct_docs(val: syn::DataStruct) -> Vec<(String, String)> {
         .iter()
         .filter_map(|f| if f.ident.is_some() { Some(f) } else { None });
     for f in fields {
-        field_docs.push((f.ident.as_ref().unwrap().to_string(), get_comment(&f.attrs)))
+        if let Some(ident) = &f.ident {
+            let comment = get_comment(&f.attrs);
+            if comment.len() > 0 {
+                field_docs.push((ident.to_string(), comment))
+            }
+        }
     }
     field_docs
 }
