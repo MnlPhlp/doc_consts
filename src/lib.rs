@@ -24,7 +24,7 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
         .collect::<Vec<_>>()
         .join(",\n");
 
-    let code = format!(
+    format!(
         "
         struct {ident}Docs {{
             {fields}
@@ -39,9 +39,9 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
             }}
         }}
     "
-    );
-    println!("{code}");
-    code.parse().unwrap()
+    )
+    .parse()
+    .unwrap()
 }
 
 fn parse_struct_docs(val: syn::DataStruct) -> Vec<(String, String)> {

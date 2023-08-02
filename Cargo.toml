@@ -8,6 +8,4 @@ description = "get doc comments on fields as runtime constants"
 proc-macro=true
 
 [dependencies]
-paste = "1.0.14"
-quote = "1.0.32"
 syn = "2.0.28"
