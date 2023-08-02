@@ -2,6 +2,14 @@
 name = "doc_consts_derive"
 version = "0.1.0"
 edition = "2021"
+description = "get doc comments on fields as runtime constants"
+authors = ["MnlPhlp <online@philipp-manuel.de>"]
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/MnlPhlp/doc_consts"
+repository = "https://github.com/MnlPhlp/doc_consts"
+keywords = ["doc", "macro", "fields", "comment", "constants"]
+categories = ["development-tools","development-tools::procedural-macro-helpers"]
+readme = "../README.md"
 
 [lib]
 proc-macro=true
