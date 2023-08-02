@@ -6,8 +6,20 @@ version = 3
 name = "doc_consts"
 version = "0.1.0"
 dependencies = [
+ "doc_consts_derive",
+ "doc_consts_trait",
+]
+
+[[package]]
+name = "doc_consts_derive"
+version = "0.1.0"
+dependencies = [
  "syn",
 ]
+
+[[package]]
+name = "doc_consts_trait"
+version = "0.1.0"
 
 [[package]]
 name = "proc-macro2"

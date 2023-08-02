@@ -11,8 +11,6 @@ keywords = ["doc", "macro", "fields", "comment", "constants"]
 categories = ["development-tools","development-tools::procedural-macro-helpers"]
 readme = "README.md"
 
-[lib]
-proc-macro=true
-
 [dependencies]
-syn = "2.0"
+doc_consts_derive = { path="./doc_consts_derive" }
+doc_consts_trait = { path="./doc_consts_trait" }
