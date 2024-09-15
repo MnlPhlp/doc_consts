@@ -11,10 +11,17 @@ mod tests {
         field2: (),
     }
 
+    #[derive(DocConsts)]
+    struct Test2 {
+        /// a third doc comment
+        field: (),
+    }
+
     #[test]
     fn it_works() {
         assert_eq!("doc comment\n    with indentation", Test::get_docs().field);
         assert_eq!("another doc comment", Test::get_docs().field2);
+        assert_eq!("a third doc comment", Test2::get_docs().field);
     }
 
     fn trait_test(_: impl DocConsts) {}

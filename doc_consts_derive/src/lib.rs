@@ -36,12 +36,11 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
             {fields}
         }}
 
-        use std::collections::HashMap;
         impl doc_consts::DocConsts for {ident}{{
-            fn get_docs_map() -> HashMap<&'static str,&'static str> {{
-                HashMap::from([
+            fn get_docs_map() -> std::collections::HashMap<&'static str,&'static str> {{
+                std::collections::HashMap::from([
                     {map_items}
-                ])                
+                ])
             }}
         }}
 
