@@ -8,10 +8,14 @@ license = "MIT OR Apache-2.0"
 homepage = "https://github.com/MnlPhlp/doc_consts"
 repository = "https://github.com/MnlPhlp/doc_consts"
 keywords = ["doc", "macro", "fields", "comment", "constants"]
-categories = ["development-tools","development-tools::procedural-macro-helpers"]
+categories = [
+    "development-tools",
+    "development-tools::procedural-macro-helpers",
+]
 readme = "README.md"
 
-members=["doc_consts_derive","tests"]
+[workspace]
+members = ["doc_consts_derive", "tests"]
 
 [dependencies]
-doc_consts_derive = { path="./doc_consts_derive", version="0.1.1"}
+doc_consts_derive = { path = "./doc_consts_derive", version = "0.1.1" }
