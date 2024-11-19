@@ -43,4 +43,38 @@ mod tests {
             panic!("doc comment not found");
         }
     }
+
+    #[derive(DocConsts)]
+    pub struct GenericStruct<T>
+    where
+        T: Clone,
+    {
+        /// Hello, world!
+        pub non_generic_field: u32,
+
+        /// Hello, T!
+        pub generic_field: T,
+    }
+
+    #[test]
+    fn derive_generic_field_works() {
+        let doc_struct = GenericStruct::<u8>::get_docs();
+        assert_eq!(doc_struct.non_generic_field, "Hello, world!");
+        assert_eq!(doc_struct.generic_field, "Hello, T!");
+    }
+
+    #[test]
+    fn derive_generic_instance_works() {
+        let instance = GenericStruct {
+            non_generic_field: 1,
+            generic_field: 2u16,
+        };
+        assert_doc_for_instance(&instance);
+    }
+
+    fn assert_doc_for_instance<T: Clone>(instance: &GenericStruct<T>) {
+        assert_eq!(GenericStruct::<T>::get_docs().generic_field, "Hello, T!");
+        drop(instance.generic_field.clone());
+        let _ = instance.non_generic_field;
+    }
 }
