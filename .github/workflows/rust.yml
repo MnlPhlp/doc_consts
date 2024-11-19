@@ -20,3 +20,5 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cd tests && cargo test --verbose
+    - name: Run no_std tests
+      run: cd no_std_tests && cargo test --verbose

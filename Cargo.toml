@@ -15,7 +15,10 @@ categories = [
 readme = "README.md"
 
 [workspace]
-members = ["doc_consts_derive", "tests"]
+members = ["doc_consts_derive", "no_std_test", "tests"]
 
 [dependencies]
 doc_consts_derive = { path = "./doc_consts_derive", version = "0.2.0" }
+
+[features]
+no_std = ["doc_consts_derive/no_std"]

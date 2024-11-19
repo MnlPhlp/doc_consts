@@ -34,6 +34,7 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
         })
         .collect::<proc_macro2::TokenStream>();
 
+    #[cfg(not(feature = "no_std"))]
     let map_items = field_docs
         .iter()
         .map(|(field, comment)| {
@@ -50,18 +51,9 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
     let ty_generics = ty_generics.to_token_stream();
     let where_clause = where_clause.to_token_stream();
 
-    quote! {
+    let stream = quote! {
         pub struct #ident_docs {
             #fields
-        }
-
-        #[automatically_derived]
-        impl #impl_generics doc_consts::DocConsts for #ident #ty_generics #where_clause {
-            fn get_docs_map() -> std::collections::HashMap<&'static str, &'static str> {
-                std::collections::HashMap::from([
-                    #map_items
-                ])
-            }
         }
 
         #[automatically_derived]
@@ -72,8 +64,23 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
                 }
             }
         }
-    }
-    .into()
+    };
+
+    #[cfg(not(feature = "no_std"))]
+    let mut stream = stream;
+    #[cfg(not(feature = "no_std"))]
+    stream.extend(quote! {
+        #[automatically_derived]
+        impl #impl_generics doc_consts::DocConsts for #ident #ty_generics #where_clause {
+            fn get_docs_map() -> std::collections::HashMap<&'static str, &'static str> {
+                std::collections::HashMap::from([
+                    #map_items
+                ])
+            }
+        }
+    });
+
+    stream.into()
 }
 
 fn parse_struct_docs(val: &syn::DataStruct) -> Vec<(proc_macro2::Ident, String)> {
