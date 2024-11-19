@@ -1,6 +1,6 @@
 [package]
 name = "doc_consts"
-version = "0.2.2"
+version = "0.3.0"
 edition = "2021"
 description = "get doc comments on fields as runtime constants"
 authors = ["MnlPhlp <online@philipp-manuel.de>"]
@@ -18,4 +18,4 @@ readme = "README.md"
 members = ["doc_consts_derive", "tests"]
 
 [dependencies]
-doc_consts_derive = { path = "./doc_consts_derive", version = "0.1.1" }
+doc_consts_derive = { path = "./doc_consts_derive", version = "0.2.0" }
