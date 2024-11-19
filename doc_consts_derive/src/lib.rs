@@ -2,7 +2,7 @@ use proc_macro::TokenStream;
 use quote::format_ident;
 use quote::quote;
 use quote::ToTokens;
-use syn::{parse_macro_input, DeriveInput, Expr, Lit};
+use syn::{parse_macro_input, DeriveInput, Expr};
 
 #[proc_macro_derive(DocConsts)]
 pub fn doc_consts(input: TokenStream) -> TokenStream {
@@ -11,7 +11,7 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
 
     let field_docs = match input.data {
-        syn::Data::Struct(val) => parse_struct_docs(val),
+        syn::Data::Struct(val) => parse_struct_docs(&val),
         syn::Data::Enum(_val) => todo!(),
         syn::Data::Union(_val) => todo!(),
     };
@@ -76,17 +76,14 @@ pub fn doc_consts(input: TokenStream) -> TokenStream {
     .into()
 }
 
-fn parse_struct_docs(val: syn::DataStruct) -> Vec<(proc_macro2::Ident, String)> {
+fn parse_struct_docs(val: &syn::DataStruct) -> Vec<(proc_macro2::Ident, String)> {
     let mut field_docs = Vec::new();
-    let fields = val
-        .fields
-        .iter()
-        .filter_map(|f| if f.ident.is_some() { Some(f) } else { None });
+    let fields = val.fields.iter().filter(|f| f.ident.is_some());
     for f in fields {
         if let Some(ident) = &f.ident {
             let comment = get_comment(&f.attrs);
-            if comment.len() > 0 {
-                field_docs.push((ident.clone(), comment))
+            if !comment.is_empty() {
+                field_docs.push((ident.clone(), comment));
             }
         }
     }
@@ -97,20 +94,19 @@ fn get_comment(attrs: &Vec<syn::Attribute>) -> String {
     let mut comment = String::new();
     for attr in attrs {
         if attr.path().is_ident("doc") {
-            match &attr.meta {
-                syn::Meta::NameValue(val) => match &val.value {
-                    Expr::Lit(lit) => match &lit.lit {
-                        Lit::Str(c) => {
-                            let c = c.value();
-                            let stripped = c.strip_prefix(" ").unwrap_or(c.as_str());
-                            comment.push_str(stripped);
-                            comment.push('\n');
-                        }
-                        _ => (),
-                    },
-                    _ => (),
-                },
-                _ => (),
+            if let syn::Meta::NameValue(syn::MetaNameValue {
+                value:
+                    Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(c),
+                        ..
+                    }),
+                ..
+            }) = &attr.meta
+            {
+                let c = c.value();
+                let stripped = c.strip_prefix(" ").unwrap_or(c.as_str());
+                comment.push_str(stripped);
+                comment.push('\n');
             }
         }
     }

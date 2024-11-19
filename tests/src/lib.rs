@@ -2,6 +2,7 @@
 mod tests {
     use doc_consts::DocConsts;
 
+    #[allow(unused)]
     #[derive(DocConsts)]
     struct Test {
         /// doc comment
@@ -11,6 +12,7 @@ mod tests {
         field2: (),
     }
 
+    #[allow(unused)]
     #[derive(DocConsts)]
     struct Test2 {
         /// a third doc comment
@@ -31,7 +33,7 @@ mod tests {
         trait_test(Test {
             field: (),
             field2: (),
-        })
+        });
     }
 
     #[test]
